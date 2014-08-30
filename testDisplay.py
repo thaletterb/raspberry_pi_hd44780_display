@@ -2,6 +2,17 @@
 
 import RPi.GPIO as GPIO  
 from time import sleep  
+from subprocess import *
+from time import sleep, strftime
+from datetime import datetime
+
+cmd = "ip addr show wlan0 | grep inet | awk '{print $2}' | cut -d/ -f1"
+
+def run_cmd(cmd):
+	p = Popen(cmd, shell=True, stdout=PIPE)
+	output = p.communicate()[0]
+	return output
+
 class HD44780:  
   
     def __init__(self, pin_rs=7, pin_e=8, pins_db=[25, 24, 23, 18]):  
@@ -68,7 +79,11 @@ class HD44780:
   
 if __name__ == '__main__':  
   
-    lcd = HD44780()  
-    lcd.message("Raspberry Pi\n  Take a byte!")  
+    lcd = HD44780()
+    ipaddr = run_cmd(cmd)    
+    lcd.message(datetime.now().strftime('%b %d %H:%M:%S\n'))
+    lcd.message('IP %s'% (ipaddr))
+    sleep(2)
+    """lcd.message("Raspberry Pi\n  Take a byte!")  """
 
 
