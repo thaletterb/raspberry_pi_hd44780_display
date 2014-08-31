@@ -84,6 +84,7 @@ if __name__ == '__main__':
     lcd.message(datetime.now().strftime('%b %d %H:%M:%S\n'))
     lcd.message('IP %s'% (ipaddr))
     sleep(2)
+    GPIO.cleanup()
     """lcd.message("Raspberry Pi\n  Take a byte!")  """
 
 
